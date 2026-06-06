@@ -136,7 +136,7 @@ if (cursor && follower) {
 ──────────────────────────────────────────── */
 if (window.Typed) {
     new Typed('.multiple-text', {
-        strings: ['ML Engineer', 'AI Enthusiast', 'SDE-1', 'Deep Learning Dev', 'NLP Specialist'],
+        strings: ['SDE-1', 'AI Enthusiast', 'AI Builder', 'Problem Solver'],
         typeSpeed: 80,
         backSpeed: 50,
         backDelay: 1800,
@@ -193,25 +193,26 @@ const navObserver = new IntersectionObserver(entries => {
 sections.forEach(s => navObserver.observe(s));
 
 /* ────────────────────────────────────────────
-   7. SKILL BAR ANIMATION
+   7. SKILL PILL STAGGER ANIMATION
 ──────────────────────────────────────────── */
-const skillsSection = document.querySelector('.skills-grid');
-let skillsAnimated  = false;
-
-if (skillsSection) {
-    const skillObs = new IntersectionObserver(entries => {
+const skillCloud = document.querySelector('.skill-cloud');
+if (skillCloud) {
+    const pillObs = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !skillsAnimated) {
-                skillsAnimated = true;
-                document.querySelectorAll('.skill-fill').forEach(fill => {
-                    const target = fill.getAttribute('data-width');
-                    setTimeout(() => { fill.style.width = target + '%'; }, 200);
+            if (entry.isIntersecting) {
+                entry.target.querySelectorAll('.skill-pill').forEach((pill, i) => {
+                    pill.style.opacity = '0';
+                    pill.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        pill.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        pill.style.opacity = '1';
+                        pill.style.transform = 'translateY(0)';
+                    }, i * 80);
                 });
             }
         });
     }, { threshold: 0.2 });
-
-    skillObs.observe(skillsSection);
+    pillObs.observe(skillCloud);
 }
 
 /* ────────────────────────────────────────────
